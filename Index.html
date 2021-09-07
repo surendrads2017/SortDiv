@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Div Sort</title>
+
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+    <style>
+        #divSort {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 25%;            
+        }
+
+            #divSort li {
+                margin: 0 3px 3px 3px;
+                padding: 0.4em;
+                padding-left: 1.5em;
+                font-size: 17px;
+                height: 16px;
+            }
+
+        .default {
+            background: lightgreen;
+            border: 1px solid #DDDDDD;
+            color: #333333;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+<body>
+    <div id="divSort">
+        <div id="1" class="default">
+            <div class="index">
+                <span class="serialnumber">1</span>
+                <input type="hidden" class="order" value="1" />
+            </div>
+            .Net Developer
+        </div>
+        <div id="2" class="default">
+            <div class="index">
+                <span class="serialnumber">2</span>
+                <input type="hidden" class="order" value="2" />
+            </div>
+            Manager
+        </div>
+        <div id="3" class="default">
+            <div class="index">
+                <span class="serialnumber">3</span>
+                <input type="hidden" class="order" value="3" />
+            </div>TL
+        </div>
+        <div id="4" class="default">
+            <div class="index">
+                <span class="serialnumber">4</span>
+                <input type="hidden" class="order" value="4" />
+            </div>
+            PM
+        </div>
+    </div>
+    <br>
+    <h3><span id="result"></span></h3>
+
+    <script>
+         $(function() {  
+         $('#divSort').sortable({  
+             update: function (event, ui) {
+                 
+               var productOrder = $(this).sortable('toArray').toString();  
+               $("#result").text (productOrder);  
+             },
+             helper: fixHelperModified,
+             stop: function (e, ui) {
+                 $('.index', ui.item.parent()).each(function (i) {
+                     
+                     var span = $(this).find('.serialnumber');
+                     var order = $(this).find('.order');
+                     span.text(i + 1);
+                     order.val(i + 1);
+                 });
+             }
+         });  
+
+          var fixHelperModified = function (e, div) {
+              var $originals = div.children();
+              var $helper = div.clone();
+              $helper.children().each(function (index) {
+                  $(this).width($originals.eq(index).width());
+              });
+              return $helper;
+          };
+          
+
+      });  
+    </script>
+
+</body>
+</html>
